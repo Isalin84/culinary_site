@@ -1,0 +1,34 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}{{ dish.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ dish.name }}</h1>
+<img src="{{ dish.image.url }}" class="img-fluid" alt="{{ dish.name }}">
+<p>{{ dish.description }}</p>
+
+<h3>Комментарии</h3>
+{% if user.is_authenticated %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="text">Ваш комментарий:</label>
+        <textarea name="text" class="form-control" id="text" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Отправить</button>
+</form>
+{% else %}
+<p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>, чтобы оставить комментарий.</p>
+{% endif %}
+
+<ul class="list-group mt-4">
+    {% for comment in comments %}
+    <li class="list-group-item">
+        <strong>{{ comment.user.username }}</strong> - {{ comment.created_at|date:"d.m.Y H:i" }}
+        <p>{{ comment.text }}</p>
+    </li>
+    {% empty %}
+    <li class="list-group-item">Пока нет комментариев.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<h2 class="mt-4">Вход</h2>
+<form method="post">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <!-- Поле для имени пользователя -->
+    <div class="form-group">
+        <label for="id_username">Имя пользователя:</label>
+        {{ form.username }}
+        {% for error in form.username.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <!-- Поле для пароля -->
+    <div class="form-group">
+        <label for="id_password">Пароль:</label>
+        {{ form.password }}
+        {% for error in form.password.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <!-- Кнопка отправки формы -->
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
+{% endblock %}

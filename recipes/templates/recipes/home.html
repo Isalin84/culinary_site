@@ -1,0 +1,20 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1>НАШИ БЛЮДА</h1>
+<div class="row">
+    {% for dish in dishes %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img class="card-img-top" src="{{ dish.image.url }}" alt="{{ dish.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ dish.name }}</h5>
+                <a href="{% url 'dish_detail' dish.id %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
